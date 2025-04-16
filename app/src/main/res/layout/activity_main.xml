@@ -144,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="Subredes"
+                        android:text="Nro. subredes"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold" />

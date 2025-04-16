@@ -55,4 +55,31 @@ public class SubnetUtils {
 
         return decimalAddress.substring(0, decimalAddress.length() - 1); // Remove trailing dot
     }
+
+    // Method to validate the network format
+    public static boolean isValidNetworkFormat(String network) {
+        // Regex to check the general format of an IPv4 address
+        String networkFormatRegex = "^((\\d{1,3})\\.){3}(\\d{1,3})$";
+        String[] octets = network.split("\\.");
+        boolean isValid = false;
+
+        if (network.matches(networkFormatRegex)) {
+            isValid = true;
+
+            // Check if each octet is a valid number between 0 and 255
+            for (String octet : octets) {
+                int numericValue = Integer.parseInt(octet);
+                if (numericValue < 0 || numericValue > 255) {
+                    isValid = false;
+                    System.out.println("Cada octeto debe ser un un número entre 0 y 255");
+                    return false;
+                }
+            }
+        } else {
+            isValid = false;
+            System.out.println("Formato inválido de red. Por favor use el formato decimal IPv4.");
+        }
+
+        return isValid;
+    }
 }

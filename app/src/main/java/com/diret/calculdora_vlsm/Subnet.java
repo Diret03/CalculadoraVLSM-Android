@@ -10,10 +10,11 @@ public class Subnet {
     private String minHost;
     private String maxHost;
     private String broadcast;
+    private String name;
 
     // Constructor
     public Subnet(String binAddress, String address, int prefix, int bitsHost, int numRequiredHosts,
-                  int allocatedHosts, String minHost, String maxHost, String broadcast) {
+                  int allocatedHosts, String minHost, String maxHost, String broadcast, String name) {
         this.binAddress = binAddress;
         this.address = address;
         this.prefix = prefix;
@@ -23,6 +24,20 @@ public class Subnet {
         this.minHost = minHost;
         this.maxHost = maxHost;
         this.broadcast = broadcast;
+        this.name = name;
+    }
+
+    public Subnet() {
+        this.binAddress = "";
+        this.address = "";
+        this.prefix = 0;
+        this.bitsHost = 0;
+        this.numRequiredHosts = 0;
+        this.allocatedHosts = 0;
+        this.minHost = "";
+        this.maxHost = "";
+        this.broadcast = "";
+        this.name = "";
     }
 
     // Getters and Setters for the attributes
@@ -104,30 +119,12 @@ public class Subnet {
         return "Address: " + address + " | Mask: /" + prefix;
     }
 
-    // Method to validate the network format
-    public static boolean isValidNetworkFormat(String network) {
-        // Regex to check the general format of an IPv4 address
-        String networkFormatRegex = "^((\\d{1,3})\\.){3}(\\d{1,3})$";
-        String[] octets = network.split("\\.");
-        boolean isValid = false;
 
-        if (network.matches(networkFormatRegex)) {
-            isValid = true;
+    public String getName() {
+        return name;
+    }
 
-            // Check if each octet is a valid number between 0 and 255
-            for (String octet : octets) {
-                int numericValue = Integer.parseInt(octet);
-                if (numericValue < 0 || numericValue > 255) {
-                    isValid = false;
-                    System.out.println("Each octet should be a number between 0 and 255.");
-                    return false;
-                }
-            }
-        } else {
-            isValid = false;
-            System.out.println("Invalid network format. Please use a valid IPv4 address format.");
-        }
-
-        return isValid;
+    public void setName(String name) {
+        this.name = name;
     }
 }
