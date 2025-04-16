@@ -2,21 +2,24 @@ package com.diret.calculdora_vlsm;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Output extends AppCompatActivity {
-
 
     private static final String TAG = "Output";
     private TextView tvParentNetwork;
@@ -100,8 +103,6 @@ public class Output extends AppCompatActivity {
         });
     }
 
-
-
     // Helper function to populate the TableLayout with subnet data
     private void populateTable(List<Subnet> subnets) {
         TableLayout tableLayout = findViewById(R.id.tlSubnetResults);
@@ -113,14 +114,15 @@ public class Output extends AppCompatActivity {
 
         // Create table header
         TableRow headerRow = new TableRow(this);
-        headerRow.setBackgroundColor(0xFFE0E0E0); // Light gray
+        headerRow.setBackgroundColor(ContextCompat.getColor(this, R.color.table_header_background));
+        headerRow.setPadding(dpToPx(12), dpToPx(12), dpToPx(12), dpToPx(12));
 
         // Create header TextViews
-        TextView tvNameHeader = createTextView("Nombre");
-        TextView tvHostsHeader = createTextView("Hosts");
-        TextView tvAllocatedHeader = createTextView("Tamaño");
-        TextView tvAddressHeader = createTextView("Dirección");
-        TextView tvPrefixHeader = createTextView("Prefijo");
+        TextView tvNameHeader = createTextView("Nombre", true);
+        TextView tvHostsHeader = createTextView("Hosts", true);
+        TextView tvAllocatedHeader = createTextView("Tamaño", true);
+        TextView tvAddressHeader = createTextView("Dirección", true);
+        TextView tvPrefixHeader = createTextView("Prefijo", true);
 
         headerRow.addView(tvNameHeader);
         headerRow.addView(tvHostsHeader);
@@ -130,11 +132,11 @@ public class Output extends AppCompatActivity {
 
         // Add extra headers in landscape mode
         if (!isPortrait) {
-            TextView tvBinAddressHeader = createTextView("Dirección binario");
-            TextView tvMaskHeader = createTextView("Máscara");
-            TextView tvMinHostHeader = createTextView("Primer host");
-            TextView tvMaxHostHeader = createTextView("Último host");
-            TextView tvBroadcastHeader = createTextView("Broadcast");
+            TextView tvBinAddressHeader = createTextView("Dirección binario", true);
+            TextView tvMaskHeader = createTextView("Máscara", true);
+            TextView tvMinHostHeader = createTextView("Primer host", true);
+            TextView tvMaxHostHeader = createTextView("Último host", true);
+            TextView tvBroadcastHeader = createTextView("Broadcast", true);
 
             headerRow.addView(tvBinAddressHeader);
             headerRow.addView(tvMaskHeader);
@@ -148,12 +150,17 @@ public class Output extends AppCompatActivity {
         // Populate table rows with subnet data
         for (Subnet subnet : subnets) {
             TableRow row = new TableRow(this);
+            row.setPadding(dpToPx(8), dpToPx(8), dpToPx(8), dpToPx(8));
 
-            TextView tvName = createTextView(subnet.getName());
-            TextView tvHosts = createTextView(String.valueOf(subnet.getNumRequiredHosts()));
-            TextView tvAllocated = createTextView(String.valueOf(subnet.getAllocatedHosts()));
-            TextView tvAddress = createTextView(subnet.getAddress());
-            TextView tvPrefix = createTextView("/" + subnet.getPrefix());
+            String name = "";
+            if (subnet.getName() != null) {
+                name = subnet.getName();
+            }
+            TextView tvName = createTextView(name, false);
+            TextView tvHosts = createTextView(String.valueOf(subnet.getNumRequiredHosts()), false);
+            TextView tvAllocated = createTextView(String.valueOf(subnet.getAllocatedHosts()), false);
+            TextView tvAddress = createTextView(subnet.getAddress(), false);
+            TextView tvPrefix = createTextView("/" + subnet.getPrefix(), false);
 
             row.addView(tvName);
             row.addView(tvHosts);
@@ -163,11 +170,11 @@ public class Output extends AppCompatActivity {
 
             // Add extra data in landscape mode
             if (!isPortrait) {
-                TextView tvBinAddress = createTextView(subnet.getBinAddress());
-                TextView tvMask = createTextView(subnetMasks[subnet.getPrefix()]);
-                TextView tvMinHost = createTextView(subnet.getMinHost());
-                TextView tvMaxHost = createTextView(subnet.getMaxHost());
-                TextView tvBroadcast = createTextView(subnet.getBroadcast());
+                TextView tvBinAddress = createTextView(subnet.getBinAddress(), false);
+                TextView tvMask = createTextView(subnetMasks[subnet.getPrefix()], false);
+                TextView tvMinHost = createTextView(subnet.getMinHost(), false);
+                TextView tvMaxHost = createTextView(subnet.getMaxHost(), false);
+                TextView tvBroadcast = createTextView(subnet.getBroadcast(), false);
 
                 row.addView(tvBinAddress);
                 row.addView(tvMask);
@@ -175,27 +182,24 @@ public class Output extends AppCompatActivity {
                 row.addView(tvMaxHost);
                 row.addView(tvBroadcast);
             }
-
             tableLayout.addView(row);
         }
     }
 
     // Helper function to create TextView for table cells
-    private TextView createTextView(String text) {
+    private TextView createTextView(String text, boolean isHeader) {
         TextView textView = new TextView(this);
         textView.setText(text);
-        textView.setPadding(8, 8, 8, 8);
+        textView.setTextColor(ContextCompat.getColor(this, R.color.table_text_color));
+        textView.setPadding(dpToPx(8), dpToPx(8), dpToPx(8), dpToPx(8));
+        if (isHeader) {
+            textView.setTypeface(null, Typeface.BOLD);
+        }
         return textView;
     }
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_output);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-//    }
+
+    // Helper function to convert dp to pixels
+    private int dpToPx(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    }
 }
