@@ -18,7 +18,7 @@ Este es un port de la siguiente aplicación web: https://calculadoravlsm.neociti
 
 Guía paso a paso sobre cómo usar la aplicación Calculadora VLSM:
 
-1.  **Ingrese la Red Padre:** En el campo "Red Padre", ingrese la dirección IP de la red principal que desea subredear. Por ejemplo, `192.168.1.0`.
+1.  **Ingrese la Red Padre:** En el campo "Red Padre", ingrese la dirección IP de la red principal que desea subnetear. Por ejemplo, `192.168.1.0`.
 
 2.  **Ingrese el Prefijo:** En el campo "Prefijo", ingrese el prefijo CIDR de la red padre. Por ejemplo, `24`.
 
@@ -40,7 +40,7 @@ Guía paso a paso sobre cómo usar la aplicación Calculadora VLSM:
     * Prefijo
     * (Más detalles como Dirección Binaria, Máscara, Rango y Broadcast son visibles en modo horizontal)
 
-**Nota Importante:** La aplicación realizará una verificación para asegurarse de que el número total de hosts solicitados no exceda la capacidad de la red padre según el prefijo proporcionado. Si el requisito total de hosts es demasiado grande, la aplicación mostrará un mensaje de error y evitará el cálculo.
+**Nota:** La aplicación realizará una verificación para asegurarse de que el número total de hosts solicitados no exceda la capacidad de la red padre según el prefijo proporcionado. Si el requisito total de hosts es demasiado grande, la aplicación mostrará un mensaje de error y evitará el cálculo.
 
 ## Primeros Pasos (Para Desarrolladores)
 
@@ -60,4 +60,4 @@ Pasos para construir y ejecutar esta aplicación desde el código fuente:
 
 Este proyecto ha sido desarrollado por:
 
-[Diret] ([https://github.com/Diret03](https://github.com/TuNombreDeUsuario)) ```
+[Diret] ([https://github.com/Diret03](https://github.com/TuNombreDeUsuario)) 
